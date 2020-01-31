@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  mgm:
+    image: ${REPOSITORY_URI}/feature-management:${DOCKER_TAG}
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      cache_from:
+        - ${REPOSITORY_URI}/feature-management:${DOCKER_TAG}
+      args:
+        - COMPOSER_AUTH=${COMPOSER_AUTH}
+        - APP_STAGE=${APP_STAGE}

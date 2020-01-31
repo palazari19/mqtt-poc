@@ -1,0 +1,104 @@
+# mqtt
+
+
+# compose syntax version.
+version: "3.6"
+
+# services declaration.
+services:
+  #MQTTCluster
+  mosquitto:
+    build:
+      context: ./docker/mqtt
+      dockerfile: Dockerfile
+    ports:
+      - 1883:1883
+      - 9001:9001
+#    volumes:
+#    - ./docker/mqtt/volumes/config:/mosquitto/config/mosquitto.conf
+#    - ./docker/mqtt/volumes/data:/mosquitto/data
+#    - ./docker/mqtt/volumes/logs:/mosquitto/log
+    restart: unless-stopped
+  # MySQL
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mqtt
+      - MYSQL_USER=mqtt
+      - MYSQL_PASSWORD=mqtt
+      - MYSQL_DATABASE=mqtt
+    ports:
+      - target: 3306
+        published: 3310
+  # Redis
+  redis:
+    image: redis:5-alpine
+    volumes:
+      - redis-data:/data
+    ports:
+      - target: 6379
+        published: 6379
+  # Web Application
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/var/www/html
+      - dot-config:/home/ambientum/.config
+      - dot-cache:/home/ambientum/.cache
+      - dot-local:/home/ambientum/.local
+      - dot-composer:/home/ambientum/.composer
+    environment:
+      - FRAMEWORK=laravel
+      - XDEBUG_ENABLED=true
+      - OPCACHE_MODE=normal
+      - PHP_MEMORY_LIMIT=256M
+    ports:
+      - 80:80
+    links:
+      - mysql
+      - redis
+  # Laravel Queue Worker
+  queue:
+    image: ambientum/php:7.3
+    volumes:
+      - .:/var/www/app
+      - dot-config:/home/ambientum/.config
+      - dot-cache:/home/ambientum/.cache
+      - dot-local:/home/ambientum/.local
+      - dot-composer:/home/ambientum/.composer
+    command:
+      - php
+      - artisan
+      - queue:work
+    environment:
+      - FRAMEWORK=laravel
+      - XDEBUG_ENABLED=false
+      - OPCACHE_MODE=disabled
+      - PHP_MEMORY_LIMIT=256M
+    links:
+      - mysql
+      - redis
+
+# volumes declaration.
+volumes:
+  # mysql-data
+  mysql-data:
+    driver: local
+  # redis-data
+  redis-data:
+    driver: local
+  # dot-config
+  dot-config:
+    driver: local
+  # dot-cache
+  dot-cache:
+    driver: local
+  # dot-local
+  dot-local:
+    driver: local
+  # dot-composer
+  dot-composer:
+    driver: local
