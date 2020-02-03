@@ -1,0 +1,23 @@
+{
+    "42953715568" : {
+        "channel":"42953715568",
+        "child":"features",
+        "flags":[
+            {
+                "name":"feature_search",
+                "ios":true,
+                "android":false
+            },
+            {
+                "name":"feature_payment",
+                "ios":true,
+                "android":true
+            },
+            {
+                "name":"feature_payment_qrcode",
+                "ios":true,
+                "android":false
+            }
+        ]
+    }
+}

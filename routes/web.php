@@ -16,3 +16,5 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('test', 'MqttController@connectaComTudo');
+
+$router->get('send', 'QueueController@sendToQueue');

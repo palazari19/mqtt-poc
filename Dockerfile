@@ -25,9 +25,61 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install zip \
     && docker-php-source delete
+
+RUN docker-php-ext-enable opcache
+RUN docker-php-ext-install calendar
+RUN docker-php-ext-install bcmath
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install tokenizer
+RUN docker-php-ext-install json
+
+RUN apt-get install -y \
+        libonig-dev \
+    && docker-php-ext-install iconv mbstring
+
+RUN apt-get install -y \
+        libcurl4-openssl-dev \
+    && docker-php-ext-install curl
+
+RUN apt-get install -y \
+        libssl-dev \
+    && docker-php-ext-install ftp phar
+
+RUN apt-get install -y \
+        libicu-dev \
+    && docker-php-ext-install intl
+
+RUN apt-get install -y \
+        libmcrypt-dev \
+    && docker-php-ext-install session
+
+RUN apt-get install -y \
+        libxml2-dev \
+    && docker-php-ext-install simplexml xml xmlrpc
+
+RUN apt-get install -y \
+        libzip-dev \
+        zlib1g-dev \
+    && docker-php-ext-install zip
+
+RUN apt-get install -y \
+        libgmp-dev \
+    && docker-php-ext-install gmp
+
+RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+
+RUN apt-get install -y libmagickwand-dev
+RUN pecl install imagick && docker-php-ext-enable imagick
+
+RUN docker-php-ext-install sockets
 COPY ./docker/apache.conf /etc/apache2
 COPY ./docker/site-enabled/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-RUN apt-get install -y telnet iputils-ping git
+#RUN apt-get install -y telnet iputils-ping git
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN a2enmod rewrite

@@ -20,7 +20,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
-
+$app->withFacades();
 // $app->withFacades(true, [
 //     'Mqtt' => \Salman\Mqtt\Facades\Mqtt::class,
 // ]);
@@ -89,6 +89,7 @@ $app->singleton(
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
  $app->register(\Salman\Mqtt\MqttServiceProvider::class);
+$app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,7 @@ $app->singleton(
 */
 
 $app->configure('mqtt');
+$app->configure('queue');
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',

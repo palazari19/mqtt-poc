@@ -60,6 +60,20 @@ services:
     links:
       - mysql
       - redis
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_VHOST: /
+    expose:
+      - "15672"
+      - "5672"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
   # Laravel Queue Worker
   queue:
     image: ambientum/php:7.3
