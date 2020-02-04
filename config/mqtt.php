@@ -7,7 +7,7 @@
  */
 
 return [
-    'host'     => env('mqtt_host','mosquitto'),
+    'host'     => env('mqtt_host','ec2-18-230-21-124.sa-east-1.compute.amazonaws.com'),
     'password' => env('mqtt_password',''),
     'username' => env('mqtt_username',''),
     'certfile' => env('mqtt_cert_file',''),
