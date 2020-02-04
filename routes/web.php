@@ -11,10 +11,16 @@
 |
 */
 
+use App\Jobs\SendFlags;
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
 $router->get('test', 'MqttController@connectaComTudo');
 
-$router->get('send', 'QueueController@sendToQueue');
+//$router->get('send', 'QueueController@sendToQueue');
+$router->get('send', function () {
+    $this->dispatch(new SendFlags('42953715568'));
+    return 'true';
+});

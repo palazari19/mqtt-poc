@@ -88,9 +88,9 @@ $app->singleton(
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
- $app->register(\Salman\Mqtt\MqttServiceProvider::class);
+$app->register(\Salman\Mqtt\MqttServiceProvider::class);
 $app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
-
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
@@ -104,6 +104,7 @@ $app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServic
 
 $app->configure('mqtt');
 $app->configure('queue');
+$app->configure('database');
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',

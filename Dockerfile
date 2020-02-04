@@ -77,9 +77,17 @@ RUN apt-get install -y libmagickwand-dev
 RUN pecl install imagick && docker-php-ext-enable imagick
 
 RUN docker-php-ext-install sockets
+RUN apt-get install -y git
+#RUN git clone -b php7 https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
+#    && docker-php-ext-install redis
+
+RUN pecl install redis \
+&& docker-php-ext-enable redis
 COPY ./docker/apache.conf /etc/apache2
 COPY ./docker/site-enabled/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 #RUN apt-get install -y telnet iputils-ping git
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY . /var/www/html
+RUN composer install
 RUN a2enmod rewrite

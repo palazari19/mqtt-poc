@@ -5,17 +5,17 @@
         "flags":[
             {
                 "name":"feature_search",
-                "ios":true,
+                "ios":false,
                 "android":false
             },
             {
                 "name":"feature_payment",
-                "ios":true,
+                "ios":false,
                 "android":true
             },
             {
                 "name":"feature_payment_qrcode",
-                "ios":true,
+                "ios":false,
                 "android":false
             }
         ]

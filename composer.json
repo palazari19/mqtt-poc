@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": "^7.2",
+        "illuminate/redis": "^6.14",
         "laravel/lumen-framework": "^6.0",
+        "predis/predis": "^1.1",
         "salmanzafar/laravel-mqtt": "dev-master#a38ffad4de0d3e8193c2ca8e0e3cf7a5462ad0e2",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^10.1"
     },
